@@ -1,0 +1,41 @@
+{
+    "name": "jtkalkman/laravel-health",
+    "description": "Configurable Laravel health check endpoint with Semonto-compatible JSON output",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "J.T. Kalkman",
+            "email": "mail@jtkalkman.nl"
+        }
+    ],
+    "keywords": ["laravel", "health", "monitoring", "semonto"],
+    "homepage": "https://github.com/JTKalkman/laravel-health",
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0|^10.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "JTKalkman\\LaravelHealth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JTKalkman\\LaravelHealth\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JTKalkman\\LaravelHealth\\HealthServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
