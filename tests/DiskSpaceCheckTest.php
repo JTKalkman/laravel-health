@@ -121,5 +121,6 @@ class DiskSpaceCheckTest extends TestCase
 
         $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
         $this->assertNull($result->value);
+        $this->assertEquals('Path /this/path/does/absolutely/not/exist not found.', $result->description);
     }
 }

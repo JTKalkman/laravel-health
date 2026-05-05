@@ -30,7 +30,7 @@ abstract class HealthCheck
             return new HealthCheckResult(
                 name: $this->name,
                 status: 'error',
-                description: 'Check not available on this system',
+                description: 'Check not available on this system.',
             );
         }
 

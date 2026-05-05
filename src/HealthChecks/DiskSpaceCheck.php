@@ -18,12 +18,7 @@ final class DiskSpaceCheck extends HealthCheck
 
     protected function isAvailable(): bool
     {
-        return $this->canExec()
-            || (
-                function_exists('disk_free_space')
-                && function_exists('disk_total_space')
-                && is_dir($this->path)
-            );
+        return $this->canExec() || (function_exists('disk_free_space') && function_exists('disk_total_space'));
     }
 
     private function buildResult(float $usedPercentage): HealthCheckResult
@@ -84,6 +79,14 @@ final class DiskSpaceCheck extends HealthCheck
 
     protected function performHealthCheck(): HealthCheckResult
     {
+        if (!is_dir($this->path)) {
+            return new HealthCheckResult(
+                name: $this->name,
+                status: HealthCheckStatus::ERROR->value,
+                description: "Path {$this->path} not found.",
+            );
+        }
+
         return $this->canExec()
             ? $this->runWithExec()
             : $this->runWithNative();
