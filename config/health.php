@@ -1,5 +1,6 @@
 <?php
 
+use JTKalkman\LaravelHealth\HealthChecks\DatabaseConnectionCheck;
 use JTKalkman\LaravelHealth\HealthChecks\DiskSpaceCheck;
 use JTKalkman\LaravelHealth\HealthChecks\DiskSpaceInodeCheck;
 
@@ -81,6 +82,7 @@ return [
     'checks' => [
         fn() => new DiskSpaceCheck(path: '/'),
         fn() => new DiskSpaceInodeCheck(path: '/'),
+        fn() => new DatabaseConnectionCheck(connection: 'mysql')
     ],
 
 ];
