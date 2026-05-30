@@ -105,7 +105,7 @@ class DiskSpaceInodeCheckTest extends TestCase
     public function test_returns_error_when_above_error_threshold(): void
     {
         // Set both thresholds to 0 so the check always returns error
-        $check = new DiskSpaceInodeCheck(path: '/', warningThreshold: 0, errorThreshold: 0);
+        $check = new DiskSpaceInodeCheck(path: '/', warningThreshold: 0, errorThreshold: 1);
         $result = $check->run();
  
         $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
