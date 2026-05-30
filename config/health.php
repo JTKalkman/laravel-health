@@ -29,7 +29,7 @@ return [
     */
 
     'auth' => [
-        'health_check_header_name' => env('HEALTH_CHECK_HEADER_NAME', 'health-check-access-key'),
+        'health_check_header_name' => env('HEALTH_CHECK_HEADER_NAME', 'health-monitor-access-key'),
         'health_check_secret' => env('HEALTH_CHECK_SECRET', null),
     ],
 

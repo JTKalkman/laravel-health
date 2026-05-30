@@ -19,7 +19,7 @@ final class ValidateHealthCheckSecret
             }
         }
                 
-        $header = config('health.auth.health_check_header_name', 'health-check-access-key');
+        $header = config('health.auth.health_check_header_name', 'health-monitor-access-key');
         $provided = $request->header($header, '');
 
 
