@@ -31,6 +31,14 @@ final class DiskSpaceInodeCheck extends HealthCheck
             );
         }
 
+        if ($this->warningThreshold >= $this->errorThreshold) {
+            return new HealthCheckResult(
+                name: $this->name,
+                status: HealthCheckStatus::ERROR->value,
+                description: "Warning threshold must be less than error threshold.",
+            );
+        }
+
         exec("df -iP " . escapeshellarg($this->path) . " 2>&1", $output, $returnCode);
 
         if ($returnCode !== 0 || count($output) < 2) {

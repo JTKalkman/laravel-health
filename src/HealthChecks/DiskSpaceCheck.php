@@ -87,6 +87,14 @@ final class DiskSpaceCheck extends HealthCheck
             );
         }
 
+        if ($this->warningThreshold >= $this->errorThreshold) {
+            return new HealthCheckResult(
+                name: $this->name,
+                status: HealthCheckStatus::ERROR->value,
+                description: "Warning threshold must be less than error threshold.",
+            );
+        }
+
         return $this->canExec()
             ? $this->runWithExec()
             : $this->runWithNative();

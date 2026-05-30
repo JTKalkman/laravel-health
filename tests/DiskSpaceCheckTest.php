@@ -123,4 +123,36 @@ class DiskSpaceCheckTest extends TestCase
         $this->assertNull($result->value);
         $this->assertEquals('Path /this/path/does/absolutely/not/exist not found.', $result->description);
     }
+
+    // -------------------------------------------------------------------------
+    // Invalid configuration
+    // -------------------------------------------------------------------------
+
+    public function test_returns_error_when_warning_threshold_exceeds_error_threshold(): void
+    {
+        $check = new DiskSpaceCheck(
+            path: '/',
+            warningThreshold: 90,
+            errorThreshold: 75,
+        );
+        $result = $check->run();
+
+        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
+        $this->assertNull($result->value);
+    }
+
+    public function test_returns_error_when_thresholds_are_equal(): void
+    {
+        $check = new DiskSpaceCheck(
+            path: '/',
+            warningThreshold: 75,
+            errorThreshold: 75,
+        );
+        $result = $check->run();
+
+        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
+        $this->assertNull($result->value);
+    }
 }
