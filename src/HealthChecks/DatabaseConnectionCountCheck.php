@@ -5,6 +5,7 @@ namespace JTKalkman\LaravelHealth\HealthChecks;
 use Illuminate\Support\Facades\DB;
 use JTKalkman\LaravelHealth\HealthCheckResult;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
+use JTKalkman\LaravelHealth\Support\Formatter;
 
 final class DatabaseConnectionCountCheck extends HealthCheck
 {
@@ -96,7 +97,7 @@ final class DatabaseConnectionCountCheck extends HealthCheck
             name: $this->name,
             status: $status,
             value: $percentage,
-            description: "{$percentage}% used ({$current}/{$max} connections).",
+            description: Formatter::percentage($percentage) . " used ({$current}/{$max} connections).",
         );
     }
 }

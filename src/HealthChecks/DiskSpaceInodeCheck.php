@@ -4,6 +4,7 @@ namespace JTKalkman\LaravelHealth\HealthChecks;
 
 use JTKalkman\LaravelHealth\HealthCheckResult;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
+use JTKalkman\LaravelHealth\Support\Formatter;
 
 final class DiskSpaceInodeCheck extends HealthCheck
 {
@@ -60,7 +61,7 @@ final class DiskSpaceInodeCheck extends HealthCheck
             default                                    => HealthCheckStatus::OK->value,
         };
 
-        $description = "{$this->path} {$usedPercentage}% inodes used.";
+        $description = "{$this->path} " . Formatter::percentage($usedPercentage) . " inodes used.";
  
         return new HealthCheckResult(
             name: $this->name,

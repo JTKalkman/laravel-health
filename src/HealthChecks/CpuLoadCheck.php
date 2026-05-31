@@ -4,6 +4,7 @@ namespace JTKalkman\LaravelHealth\HealthChecks;
 
 use JTKalkman\LaravelHealth\HealthCheckResult;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
+use JTKalkman\LaravelHealth\Support\Formatter;
 
 final class CpuLoadCheck extends HealthCheck
 {
@@ -111,7 +112,7 @@ final class CpuLoadCheck extends HealthCheck
             name: $this->name,
             status: $status,
             value: $percentage,
-            description: "Load: " . round($load, 2) . " ({$percentage}% of {$cores} cores).",
+            description: "Load: " . Formatter::number($load) . " (" . Formatter::percentage($percentage) . " of {$cores} cores).",
         );
     }
 }

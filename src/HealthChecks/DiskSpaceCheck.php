@@ -4,6 +4,7 @@ namespace JTKalkman\LaravelHealth\HealthChecks;
 
 use JTKalkman\LaravelHealth\HealthCheckResult;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
+use JTKalkman\LaravelHealth\Support\Formatter;
 
 final class DiskSpaceCheck extends HealthCheck
 {
@@ -29,7 +30,7 @@ final class DiskSpaceCheck extends HealthCheck
             default                                    => HealthCheckStatus::OK->value,
         };
  
-        $description = "{$this->path} {$usedPercentage}% used.";
+        $description = "{$this->path} " . Formatter::percentage($usedPercentage) . " used.";
  
         return new HealthCheckResult(
             name: $this->name,

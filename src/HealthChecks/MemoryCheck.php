@@ -4,6 +4,7 @@ namespace JTKalkman\LaravelHealth\HealthChecks;
 
 use JTKalkman\LaravelHealth\HealthCheckResult;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
+use JTKalkman\LaravelHealth\Support\Formatter;
 
 final class MemoryCheck extends HealthCheck
 {
@@ -68,7 +69,7 @@ final class MemoryCheck extends HealthCheck
             name: $this->name,
             status: $status,
             value: $usedPercentage,
-            description: "{$usedPercentage}% used.",
+            description: Formatter::percentage($usedPercentage) . " used.",
         );
     }
 
