@@ -111,7 +111,7 @@ final class CpuLoadCheck extends HealthCheck
             name: $this->name,
             status: $status,
             value: $percentage,
-            description: "Load: {$load} ({$percentage}% of {$cores} cores).",
+            description: "Load: " . round($load, 2) . " ({$percentage}% of {$cores} cores).",
         );
     }
 }

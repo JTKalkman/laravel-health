@@ -29,7 +29,7 @@ final class DiskSpaceCheck extends HealthCheck
             default                                    => HealthCheckStatus::OK->value,
         };
  
-        $description = "{$this->path} {$usedPercentage}% used";
+        $description = "{$this->path} {$usedPercentage}% used.";
  
         return new HealthCheckResult(
             name: $this->name,

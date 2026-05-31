@@ -60,7 +60,7 @@ final class DiskSpaceInodeCheck extends HealthCheck
             default                                    => HealthCheckStatus::OK->value,
         };
 
-        $description = "{$this->path} {$usedPercentage}% inodes used";
+        $description = "{$this->path} {$usedPercentage}% inodes used.";
  
         return new HealthCheckResult(
             name: $this->name,
