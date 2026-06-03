@@ -30,7 +30,7 @@ final class DatabaseConnectionCheck extends HealthCheck
 
         DB::connection($this->connection)->select('SELECT 1');
 
-        $duration = microtime(true) - $start;
+        $duration = round(microtime(true) - $start, 3);
 
         return new HealthCheckResult(
             name: $this->name,
