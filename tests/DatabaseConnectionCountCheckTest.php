@@ -5,26 +5,10 @@ namespace JTKalkman\LaravelHealth\Tests\HealthChecks;
 use JTKalkman\LaravelHealth\HealthCheckStatus;
 use JTKalkman\LaravelHealth\HealthChecks\DatabaseConnectionCountCheck;
 use JTKalkman\LaravelHealth\HealthServiceProvider;
-use Orchestra\Testbench\TestCase;
+use JTKalkman\LaravelHealth\Tests\LaravelTestCase;
 
-class DatabaseConnectionCountCheckTest extends TestCase
+class DatabaseConnectionCountCheckTest extends LaravelTestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            HealthServiceProvider::class,
-        ];
-    }
-
-    protected function defineEnvironment($app): void
-    {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-        ]);
-    }
-
     // -------------------------------------------------------------------------
     // Invalid configuration
     // -------------------------------------------------------------------------
