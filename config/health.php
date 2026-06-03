@@ -1,8 +1,11 @@
 <?php
 
+use JTKalkman\LaravelHealth\HealthChecks\CpuLoadCheck;
 use JTKalkman\LaravelHealth\HealthChecks\DatabaseConnectionCheck;
+use JTKalkman\LaravelHealth\HealthChecks\DatabaseConnectionCountCheck;
 use JTKalkman\LaravelHealth\HealthChecks\DiskSpaceCheck;
 use JTKalkman\LaravelHealth\HealthChecks\DiskSpaceInodeCheck;
+use JTKalkman\LaravelHealth\HealthChecks\MemoryCheck;
 
 return [
 
@@ -82,7 +85,11 @@ return [
     'checks' => [
         fn() => new DiskSpaceCheck(path: '/'),
         fn() => new DiskSpaceInodeCheck(path: '/'),
-        fn() => new DatabaseConnectionCheck(connection: 'mysql')
+        fn() => new DatabaseConnectionCheck(connection: 'mysql'),
+        fn() => new DatabaseConnectionCountCheck(connection: 'mysql'),
+        fn() => new MemoryCheck(warningThreshold: 50, errorThreshold: 75),
+        fn() => new CpuLoadCheck(minutes: 1),
+        fn() => new CpuLoadCheck(minutes: 5),
+        fn() => new CpuLoadCheck(minutes: 15),
     ],
-
 ];
