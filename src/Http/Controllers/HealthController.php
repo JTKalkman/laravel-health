@@ -19,8 +19,22 @@ final class HealthController extends Controller
                 ? Cache::remember('health::results', $ttl, fn() => $this->runChecks())
                 : $this->runChecks();
         } catch (\Throwable $th) {
-            // Cache is unavailable, run checks directly
-            $payload = $this->runChecks();
+            logger()->warning(
+                'Health check: configured cache store unavailable, falling back to file cache. ' .
+                'If using database cache driver, the database may be down. Error: ' . $th->getMessage()
+            );
+
+            try {
+                $payload = $ttl > 0
+                    ? Cache::store('file')->remember('health::results', $ttl, fn() => $this->runChecks())
+                    : $this->runChecks();
+            } catch (\Throwable $th) {
+                logger()->error(
+                    'Health check: file cache also unavailable, running checks uncached. ' .
+                    'Server may be under increased load. Error: ' . $th->getMessage()
+                );
+                $payload = $this->runChecks();
+            }
         }
 
         $httpStatus = $payload['status'] === HealthCheckStatus::OK->value ? 200 : 503;
