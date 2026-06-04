@@ -291,4 +291,4 @@ To connect Semonto to your health endpoint, add the endpoint URL in your Semonto
 
 MIT License
 
-Copyright (c) 2025 Jelle Kalkman
+Copyright (c) 2025 J.T. Kalkman
