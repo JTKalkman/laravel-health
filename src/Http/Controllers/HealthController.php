@@ -14,26 +14,32 @@ final class HealthController extends Controller
     {
         $ttl = config('health.cache_ttl', 30);
 
-        try {
-            $payload = $ttl > 0
-                ? Cache::remember('health::results', $ttl, fn() => $this->runChecks())
-                : $this->runChecks();
-        } catch (\Throwable $th) {
-            logger()->warning(
-                'Health check: configured cache store unavailable, falling back to file cache. ' .
-                'If using database cache driver, the database may be down. Error: ' . $th->getMessage()
-            );
+        $payload = null;
 
+        if ($ttl > 0) {
             try {
-                $payload = $ttl > 0
-                    ? Cache::store('file')->remember('health::results', $ttl, fn() => $this->runChecks())
-                    : $this->runChecks();
+                $payload = Cache::get('health::results');
             } catch (\Throwable $th) {
-                logger()->error(
-                    'Health check: file cache also unavailable, running checks uncached. ' .
-                    'Server may be under increased load. Error: ' . $th->getMessage()
+                logger()->warning(
+                    'Health check: cache unavailable, running checks uncached. ' .
+                    'Error: ' . $th->getMessage()
                 );
-                $payload = $this->runChecks();
+            }
+        }
+
+        if ($payload === null) {
+            $payload = $this->runChecks();
+
+            if ($ttl > 0) {
+                try {
+                    Cache::put('health::results', $payload, $ttl);
+                } catch (\Throwable $th) {
+                    // Cache write failed, not critical — results still returned
+                    logger()->warning(
+                        'Health check: cache write failed. ' .
+                        'Error: ' . $th->getMessage()
+                    );
+                }
             }
         }
 
@@ -46,12 +52,22 @@ final class HealthController extends Controller
     {
         $checks = config('health.checks', []);
         $results = [];
+        $names = [];
         $worstStatus = HealthCheckStatus::OK;
 
         foreach ($checks as $check) {
-            $result = is_callable($check)
-                ? $check()->run()
-                : $check->run();
+            $instance = is_callable($check) ? $check() : $check;
+
+            if (in_array($instance->name(), $names)) {
+                logger()->warning(
+                    "Health check: duplicate check name '{$instance->name()}' detected. " .
+                    'Check your config/health.php for duplicate entries.'
+                );
+                continue;
+            }
+
+            $names[] = $instance->name();
+            $result = $instance->run();
 
             $results[] = array_filter([
                 'name'        => $result->name,
