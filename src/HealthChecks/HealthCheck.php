@@ -8,6 +8,11 @@ abstract class HealthCheck
 {
     protected string $name = 'Health check';
 
+    public function name(): string
+    {
+        return $this->name;
+    }
+
     protected function canExec(): bool
     {
         if (ini_get('safe_mode')) return false;
