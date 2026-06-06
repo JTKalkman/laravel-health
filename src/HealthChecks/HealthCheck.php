@@ -3,6 +3,7 @@
 namespace JTKalkman\LaravelHealth\HealthChecks;
 
 use JTKalkman\LaravelHealth\HealthCheckResult;
+use JTKalkman\LaravelHealth\HealthCheckStatus;
 
 abstract class HealthCheck
 {
@@ -32,8 +33,8 @@ abstract class HealthCheck
         if (!$this->isAvailable()) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: 'error',
-                description: 'Check not available on this system.',
+                status: HealthCheckStatus::ERROR->value,
+                description: "{$this->name} is not available on this system.",
             );
         }
 
@@ -42,7 +43,7 @@ abstract class HealthCheck
         } catch (\Throwable $th) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: 'error',
+                status: HealthCheckStatus::ERROR->value,
                 description: $th->getMessage(),
             );
         }
