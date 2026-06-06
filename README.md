@@ -2,7 +2,7 @@
 
 A lightweight, configurable Laravel package that exposes a health check endpoint with [Semonto server health monitoring](https://semonto.com/feature/server-health-monitoring) compatible JSON output.
 
-No GUI, no bloat, just a clean JSON endpoint that tells you and your monitoring tools whether your server is healthy.
+No GUI, just a clean JSON endpoint that tells you and your monitoring tools whether your server is healthy.
 
 ## Requirements
 
@@ -43,6 +43,9 @@ return [
     |--------------------------------------------------------------------------
     | Health Check Route
     |--------------------------------------------------------------------------
+    |
+    | The URI where the health endpoint will be accessible.
+    |
     */
     'route' => env('HEALTH_ROUTE', '/health'),
 
@@ -290,4 +293,4 @@ To connect Semonto to your health endpoint, add the endpoint URL in your Semonto
 
 MIT License
 
-Copyright (c) 2025 J.T. Kalkman
+Copyright (c) 2026 J.T. Kalkman

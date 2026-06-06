@@ -17,7 +17,6 @@ return [
     | The URI where the health endpoint will be accessible.
     |
     */
-
     'route' => env('HEALTH_ROUTE', '/health'),
 
     /*
@@ -25,15 +24,17 @@ return [
     | Authentication
     |--------------------------------------------------------------------------
     |
-    | The header name and value Semonto (or any monitor) will send with each
-    | request. Leave 'secret' null to disable authentication entirely,
-    | not recommended in production.
+    | The header name and value your monitoring tool sends with each request.
+    | Leave 'health_check_secret' null to disable authentication, not
+    | recommended in production.
+    |
+    | When using Semonto, set the header name to match what you configured
+    | in your Semonto server health monitoring settings.
     |
     */
-
     'auth' => [
         'health_check_header_name' => env('HEALTH_CHECK_HEADER_NAME', 'health-monitor-access-key'),
-        'health_check_secret' => env('HEALTH_CHECK_SECRET', null),
+        'health_check_secret'      => env('HEALTH_CHECK_SECRET', null),
     ],
 
     /*
@@ -42,10 +43,9 @@ return [
     |--------------------------------------------------------------------------
     |
     | When enabled, the health endpoint will only respond to HTTPS requests.
-    | Strongly recommended in production.
+    | Strongly recommended in production. Set to false for local development.
     |
     */
-
     'require_https' => env('HEALTH_REQUIRE_HTTPS', true),
 
     /*
@@ -53,11 +53,10 @@ return [
     | Cache
     |--------------------------------------------------------------------------
     |
-    | Results are cached to prevent flooding the server with expensive checks
-    | on every request. Set to 0 to disable caching.
+    | Results are cached to prevent the health endpoint itself from becoming
+    | a source of load on your server. Set to 0 to disable caching.
     |
     */
-
     'cache_ttl' => env('HEALTH_CACHE_TTL', 30),
 
     /*
@@ -65,31 +64,22 @@ return [
     | Checks
     |--------------------------------------------------------------------------
     |
-    | Register the health checks you want to run. Each check is an instance
-    | of a class extending JTKalkman\LaravelHealth\HealthChecks\HealthCheck.
-    | Custom checks can be added anywhere in your application.
+    | Register the health checks to run. Each check must be wrapped in a
+    | closure, see the "Why closures?" section in the README.
     |
-    | Example:
-    |   fn() => new DiskSpaceCheck(path: '/', warningThreshold: 75, errorThreshold: 90),
-    |   fn() => new DiskSpaceInodeCheck(path: '/'),
-    |   fn() => new \App\HealthChecks\RedisCheck(),
+    | Run `df -P` and `df -iP` on your server to list available mount points.
     |
-    | Why closures?
-    | Health checks are registered as closures rather than instantiated objects 
-    | to ensure they are only created when the health endpoint is actually called. 
-    | Instantiating checks directly in the config array would cause them to be 
-    | constructed on every request during Laravel's bootstrap cycle, regardless 
-    | of whether the health endpoint was hit.
     */
-
     'checks' => [
         fn() => new DiskSpaceCheck(path: '/'),
+        fn() => new DiskSpaceCheck(path: '/var', warningThreshold: 75, errorThreshold: 90),
         fn() => new DiskSpaceInodeCheck(path: '/'),
+        fn() => new MemoryCheck(warningThreshold: 75, errorThreshold: 90),
+        fn() => new CpuLoadCheck(minutes: 1,  warningThreshold: 70, errorThreshold: 90),
+        fn() => new CpuLoadCheck(minutes: 5,  warningThreshold: 60, errorThreshold: 80),
+        fn() => new CpuLoadCheck(minutes: 15, warningThreshold: 50, errorThreshold: 70),
         fn() => new DatabaseConnectionCheck(connection: 'mysql'),
-        fn() => new DatabaseConnectionCountCheck(connection: 'mysql'),
-        fn() => new MemoryCheck(warningThreshold: 50, errorThreshold: 75),
-        fn() => new CpuLoadCheck(minutes: 1),
-        fn() => new CpuLoadCheck(minutes: 5),
-        fn() => new CpuLoadCheck(minutes: 15),
+        fn() => new DatabaseConnectionCountCheck(connection: 'mysql', warningThreshold: 75, errorThreshold: 90),
     ],
+
 ];
