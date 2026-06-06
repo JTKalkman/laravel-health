@@ -40,7 +40,6 @@ final class DatabaseConnectionCountCheck extends HealthCheck
 
         return match ($driver) {
             'mysql', 'mariadb' => $this->checkMysql(),
-            'pgsql'            => $this->checkPgsql(),
             default            => new HealthCheckResult(
                 name: $this->name,
                 status: HealthCheckStatus::ERROR->value,
@@ -58,19 +57,6 @@ final class DatabaseConnectionCountCheck extends HealthCheck
         $currentConnections = DB::connection($this->connection)
             ->selectOne("SHOW STATUS LIKE 'Threads_connected'")
             ?->Value;
-
-        return $this->buildResult((int) $currentConnections, (int) $maxConnections);
-    }
-
-    private function checkPgsql(): HealthCheckResult
-    {
-        $maxConnections = DB::connection($this->connection)
-            ->selectOne("SELECT setting::int AS value FROM pg_settings WHERE name = 'max_connections'")
-            ?->value;
-
-        $currentConnections = DB::connection($this->connection)
-            ->selectOne('SELECT COUNT(*) AS value FROM pg_stat_activity')
-            ?->value;
 
         return $this->buildResult((int) $currentConnections, (int) $maxConnections);
     }
