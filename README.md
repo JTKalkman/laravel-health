@@ -268,8 +268,7 @@ The endpoint returns a JSON response compatible with [Semonto server health moni
 | Status | Meaning |
 |---|---|
 | `ok` | Check passed |
-| `warning` | Check passed but approaching threshold |
-| `critic` | Check failed at warning level |
+| `warning` | Check passed with warnings |
 | `error` | Check failed or could not run |
 
 The top-level `status` reflects the worst status across all checks. The HTTP response code is `200` for `ok` and `503` for anything else.

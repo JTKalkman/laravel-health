@@ -34,7 +34,7 @@ final class HealthController extends Controller
                 try {
                     Cache::put('health::results', $payload, $ttl);
                 } catch (\Throwable $th) {
-                    // Cache write failed, not critical — results still returned
+                    // Cache write failed, not critical, results still returned
                     logger()->warning(
                         'Health check: cache write failed. ' .
                         'Error: ' . $th->getMessage()
