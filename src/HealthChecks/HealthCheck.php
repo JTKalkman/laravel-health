@@ -28,6 +28,12 @@ abstract class HealthCheck
 
     abstract protected function performHealthCheck(): HealthCheckResult;
 
+    /**
+     * Executes the health check safely. Any unexpected exception thrown by
+     * performHealthCheck() is caught and returned as an error result, ensuring
+     * the health endpoint always produces a valid response regardless of
+     * individual check failures.
+     */
     public function run(): HealthCheckResult
     {
         if (!$this->isAvailable()) {
