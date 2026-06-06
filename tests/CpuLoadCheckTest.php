@@ -88,7 +88,7 @@ class CpuLoadCheckTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Result — only runs on Linux with /proc/cpuinfo and load avg available
+    // Result: only runs on Linux with /proc/cpuinfo and load avg available
     // -------------------------------------------------------------------------
 
     public function test_returns_valid_status(): void

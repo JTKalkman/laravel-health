@@ -88,7 +88,7 @@ final class HealthController extends Controller
     private function resolveWorstStatus(HealthCheckStatus $current, string $new): HealthCheckStatus
     {
         $priority = [
-            HealthCheckStatus::OK->value     => 0,
+            HealthCheckStatus::OK->value      => 0,
             HealthCheckStatus::WARNING->value => 1,
             HealthCheckStatus::ERROR->value   => 2,
         ];

@@ -73,7 +73,7 @@ class MemoryCheckTest extends TestCase
     }
 
     // -------------------------------------------------------------------------
-    // Result — only runs on Linux with /proc/meminfo available
+    // Result: only runs on Linux with /proc/meminfo available
     // -------------------------------------------------------------------------
 
     public function test_returns_valid_status(): void

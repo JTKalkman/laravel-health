@@ -87,12 +87,13 @@ class DatabaseConnectionCountCheckTest extends LaravelTestCase
     }
 
     // -------------------------------------------------------------------------
-    // Happy path — requires a real MySQL/MariaDB or PostgreSQL connection.
-    // The actual query logic (max_connections, Threads_connected/pg_stat_activity)
-    // cannot be meaningfully tested with SQLite in-memory. Manual testing against
-    // a real database instance is required for full coverage.
+    // Happy path, requires a real MySQL/MariaDB connection.
+    // The actual query logic (max_connections, Threads_connected)
+    // cannot be meaningfully tested with SQLite in-memory. Manual 
+    // testing against a real database instance is required for full 
+    // coverage.
     //
-    // TODO: Consider a MySQL/PostgreSQL service container in CI/CD for
+    // TODO: Consider a MySQL service container in CI/CD for
     // integration tests covering the happy path and threshold behaviour.
     // -------------------------------------------------------------------------
 }

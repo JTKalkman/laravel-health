@@ -26,7 +26,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The header name and value Semonto (or any monitor) will send with each
-    | request. Leave 'secret' null to disable authentication entirely —
+    | request. Leave 'secret' null to disable authentication entirely,
     | not recommended in production.
     |
     */
@@ -78,7 +78,7 @@ return [
     | Health checks are registered as closures rather than instantiated objects 
     | to ensure they are only created when the health endpoint is actually called. 
     | Instantiating checks directly in the config array would cause them to be 
-    | constructed on every request during Laravel's bootstrap cycle — regardless 
+    | constructed on every request during Laravel's bootstrap cycle, regardless 
     | of whether the health endpoint was hit.
     */
 
