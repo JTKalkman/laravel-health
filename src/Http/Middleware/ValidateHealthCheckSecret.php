@@ -22,7 +22,6 @@ final class ValidateHealthCheckSecret
         $header = config('health.auth.health_check_header_name', 'health-monitor-access-key');
         $provided = $request->header($header, '');
 
-
         if (!hash_equals($secret, $provided)) {
             abort(404); // Don't reveal the existence of the endpoint.
         }
