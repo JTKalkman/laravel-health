@@ -55,8 +55,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | The header name and value your monitoring tool sends with each request.
-    | Leave 'health_check_secret' null to disable authentication, not
-    | recommended in production.
+    | Required, the endpoint will return 404 until this is set.
     |
     | When using Semonto, set the header name to match what you configured
     | in your Semonto server health monitoring settings.

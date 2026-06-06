@@ -12,11 +12,12 @@ final class ValidateHealthCheckSecret
     {
         $secret = config('health.auth.health_check_secret');
 
-        // If no secret is configured, block all requests in production.
         if (empty($secret)) {
-            if (app()->isProduction()) {
-                abort(404); // Don't reveal the existence of the endpoint.
-            }
+            logger()->warning(
+                'Health check: no secret configured. ' .
+                'Add HEALTH_CHECK_SECRET to your .env to enable the health endpoint.'
+            );
+            abort(404);
         }
                 
         $header = config('health.auth.health_check_header_name', 'health-monitor-access-key');
