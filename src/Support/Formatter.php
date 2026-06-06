@@ -5,7 +5,8 @@ namespace JTKalkman\LaravelHealth\Support;
 class Formatter
 {
     /**
-     * Format a float to at most 2 decimal places, stripping trailing zeros.
+     * Format a float to the specified number of decimal places, 
+     * stripping trailing zeros.
      *
      * Examples:
      *   9.0   -> "9"
