@@ -12,8 +12,7 @@
     "keywords": ["laravel", "health", "monitoring", "semonto"],
     "homepage": "https://github.com/JTKalkman/laravel-health",
     "scripts": {
-        "test": "./vendor/bin/phpunit",
-        "test:coverage": "./vendor/bin/phpunit --coverage-html coverage"
+        "test": "./vendor/bin/phpunit"
     },
     "require": {
         "php": "^8.3",
