@@ -15,8 +15,6 @@ abstract class HealthCheck
 
     protected function canExec(): bool
     {
-        if (ini_get('safe_mode')) return false;
-
         $disabled = array_map('trim', explode(',', ini_get('disable_functions')));
 
         return function_exists('exec') && !in_array('exec', $disabled);
