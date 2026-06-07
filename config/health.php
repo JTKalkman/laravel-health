@@ -63,22 +63,20 @@ return [
     | Checks
     |--------------------------------------------------------------------------
     |
-    | Register the health checks to run. Each check must be wrapped in a
-    | closure, see the "Why closures?" section in the README.
+    | Register the health checks to run.
     |
     | Run `df -P` and `df -iP` on your server to list available mount points.
     |
     */
     'checks' => [
-        fn() => new DiskSpaceCheck(path: '/'),
-        fn() => new DiskSpaceCheck(path: '/var', warningThreshold: 75, errorThreshold: 90),
-        fn() => new DiskSpaceInodeCheck(path: '/'),
-        fn() => new MemoryCheck(warningThreshold: 75, errorThreshold: 90),
-        fn() => new CpuLoadCheck(minutes: 1,  warningThreshold: 70, errorThreshold: 90),
-        fn() => new CpuLoadCheck(minutes: 5,  warningThreshold: 60, errorThreshold: 80),
-        fn() => new CpuLoadCheck(minutes: 15, warningThreshold: 50, errorThreshold: 70),
-        fn() => new DatabaseConnectionCheck(connection: 'mysql'),
-        fn() => new DatabaseConnectionCountCheck(connection: 'mysql', warningThreshold: 75, errorThreshold: 90),
+        [DiskSpaceCheck::class, ['path' => '/', 'warningThreshold' => 75, 'errorThreshold' => 90]],
+        [DiskSpaceInodeCheck::class, ['path' => '/', 'warningThreshold' => 75, 'errorThreshold' => 90]],
+        [MemoryCheck::class, ['warningThreshold' => 75, 'errorThreshold' => 90]],
+        [CpuLoadCheck::class, ['minutes' => 1,  'warningThreshold' => 70, 'errorThreshold' => 90]],
+        [CpuLoadCheck::class, ['minutes' => 5,  'warningThreshold' => 60, 'errorThreshold' => 80]],
+        [CpuLoadCheck::class, ['minutes' => 15, 'warningThreshold' => 50, 'errorThreshold' => 70]],
+        [DatabaseConnectionCheck::class, ['connection' => 'mysql']],
+        [DatabaseConnectionCountCheck::class, ['connection' => 'mysql', 'warningThreshold' => 75, 'errorThreshold' => 90]],
     ],
 
 ];

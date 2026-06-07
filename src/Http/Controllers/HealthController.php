@@ -13,7 +13,6 @@ final class HealthController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $ttl = config('health.cache_ttl', 30);
-
         $payload = null;
 
         if ($ttl > 0) {
@@ -34,7 +33,6 @@ final class HealthController extends Controller
                 try {
                     Cache::put('health::results', $payload, $ttl);
                 } catch (\Throwable $th) {
-                    // Cache write failed, not critical, results still returned
                     logger()->warning(
                         'Health check: cache write failed. ' .
                         'Error: ' . $th->getMessage()
@@ -55,8 +53,8 @@ final class HealthController extends Controller
         $names = [];
         $worstStatus = HealthCheckStatus::OK;
 
-        foreach ($checks as $check) {
-            $instance = is_callable($check) ? $check() : $check;
+        foreach ($checks as [$class, $params]) {
+            $instance = new $class(...$params);
 
             if (in_array($instance->name(), $names)) {
                 logger()->warning(
@@ -74,7 +72,7 @@ final class HealthController extends Controller
                 'description' => $result->description,
                 'value'       => $result->value,
                 'status'      => $result->status,
-            ], fn ($value) => $value !== null);
+            ], fn($value) => $value !== null);
 
             $worstStatus = $this->resolveWorstStatus($worstStatus, $result->status);
         }
