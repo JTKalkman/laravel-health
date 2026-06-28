@@ -136,7 +136,7 @@ HEALTH_CHECK_SECRET=my-test-secret
 ## Artisan commands
 
 ```bash
-bash# Run all checks and display results in the terminal
+# Run all checks and display results in the terminal
 php artisan health:check
 
 # Clear the cached health check results
