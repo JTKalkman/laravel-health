@@ -41,7 +41,7 @@ final class HealthController extends Controller
             }
         }
 
-        $httpStatus = $payload['status'] === HealthCheckStatus::OK->value ? 200 : 503;
+        $httpStatus = $payload['status'] === HealthCheckStatus::OK ? 200 : 503;
 
         return response()->json($payload, $httpStatus);
     }
@@ -74,13 +74,12 @@ final class HealthController extends Controller
                 'status'      => $result->status,
             ], fn($value) => $value !== null);
 
-            $status = HealthCheckStatus::from($result->status);
-            $worstStatus = $worstStatus->worst($status);
+            $worstStatus = $worstStatus->worst($result->status);
         }
 
         return [
             'results' => $results,
-            'status'  => $worstStatus->value,
+            'status'  => $worstStatus,
         ];
     }
 }
