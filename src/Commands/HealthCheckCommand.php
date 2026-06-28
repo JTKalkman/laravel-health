@@ -21,14 +21,13 @@ final class HealthCheckCommand extends Command
             $instance = new $class(...$params);
             $result = $instance->run();
 
-            $status = HealthCheckStatus::from($result->status);
-            $worstStatus = $worstStatus->worst($status);
+            $worstStatus = $worstStatus->worst($result->status);
 
             $rows[] = [
-                $this->colorize($result->name, $status),
+                $this->colorize($result->name, $result->status),
                 $result->description ?? '',
                 $result->value !== null ? (string) $result->value : '',
-                $this->colorize($result->status, $status),
+                $this->colorize($result->status->value, $result->status),
             ];
         }
 
