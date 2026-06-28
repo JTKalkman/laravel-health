@@ -74,7 +74,8 @@ final class HealthController extends Controller
                 'status'      => $result->status,
             ], fn($value) => $value !== null);
 
-            $worstStatus = $worstStatus->worst($result->status);
+            $status = HealthCheckStatus::from($result->status);
+            $worstStatus = $worstStatus->worst($status);
         }
 
         return [
