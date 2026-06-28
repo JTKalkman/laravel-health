@@ -19,7 +19,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable authentication, HTTPS requirement, caching, and route
 - Custom check support via extending `HealthCheck` abstract class
 
-## [1.0.1] - 2025-28-06
+## [1.0.1] - 2025-03-06
+
+### Fixed
+- Config cache incompatibility issue by replacing closures with class tuples
+
+## [1.0.2] - 2025-28-06
+
+### Added
 - Adds Artisan commands to:
     - Run all checks and display results in the terminal
     - Clear the cached health check results
