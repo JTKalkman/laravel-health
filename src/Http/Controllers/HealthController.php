@@ -51,7 +51,7 @@ final class HealthController extends Controller
         $checks = config('health.checks', []);
         $results = [];
         $names = [];
-        $worstStatus = HealthCheckStatus::OK;
+        $status = HealthCheckStatus::OK;
 
         foreach ($checks as [$class, $params]) {
             $instance = new $class(...$params);
@@ -74,12 +74,12 @@ final class HealthController extends Controller
                 'status'      => $result->status,
             ], fn($value) => $value !== null);
 
-            $worstStatus = $worstStatus->worst($result->status);
+            $status = $status->worst($result->status);
         }
 
         return [
             'results' => $results,
-            'status'  => $worstStatus,
+            'status'  => $status,
         ];
     }
 }
