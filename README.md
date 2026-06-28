@@ -218,7 +218,7 @@ class RedisCheck extends HealthCheck
 
         return new HealthCheckResult(
             name: $this->name,
-            status: HealthCheckStatus::OK->value,
+            status: HealthCheckStatus::OK,
             value: $duration,
             description: "Redis responded in {$duration}s.",
         );
