@@ -31,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release
 - Built-in checks: `DiskSpaceCheck`, `DiskSpaceInodeCheck`, `MemoryCheck`, `CpuLoadCheck`, `DatabaseConnectionCheck`, `DatabaseConnectionCountCheck`
-- Semonto-compatible JSON output with `ok`, `warning`, `critic`, `error` status values
+- Semonto-compatible JSON output with `ok`, `warning`, `error` status values
 - Secure-by-default authentication via configurable header and secret key
 - Result caching with cache unavailability fallback
 - HTTPS enforcement middleware
