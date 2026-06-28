@@ -61,7 +61,7 @@ final class CpuLoadCheck extends HealthCheck
         if ($this->warningThreshold >= $this->errorThreshold) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Warning threshold must be less than error threshold.",
             );
         }
@@ -69,7 +69,7 @@ final class CpuLoadCheck extends HealthCheck
         if (!in_array($this->minutes, [1, 5, 15])) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Minutes must be 1, 5, or 15.",
             );
         }
@@ -79,7 +79,7 @@ final class CpuLoadCheck extends HealthCheck
         if ($cores === null) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Could not determine CPU core count.',
             );
         }
@@ -89,7 +89,7 @@ final class CpuLoadCheck extends HealthCheck
         if ($loads === null) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Could not retrieve CPU load averages.',
             );
         }
@@ -103,9 +103,9 @@ final class CpuLoadCheck extends HealthCheck
         $percentage = round(($load / $cores) * 100, 1);
 
         $status = match (true) {
-            $percentage >= $this->errorThreshold   => HealthCheckStatus::ERROR->value,
-            $percentage >= $this->warningThreshold => HealthCheckStatus::WARNING->value,
-            default                                => HealthCheckStatus::OK->value,
+            $percentage >= $this->errorThreshold   => HealthCheckStatus::ERROR,
+            $percentage >= $this->warningThreshold => HealthCheckStatus::WARNING,
+            default                                => HealthCheckStatus::OK,
         };
 
         return new HealthCheckResult(

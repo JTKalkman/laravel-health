@@ -15,20 +15,19 @@ final class HealthCheckCommand extends Command
     {
         $checks = config('health.checks', []);
         $rows = [];
-        $worstStatus = HealthCheckStatus::OK;
+        $status = HealthCheckStatus::OK;
 
         foreach ($checks as [$class, $params]) {
             $instance = new $class(...$params);
             $result = $instance->run();
 
-            $status = HealthCheckStatus::from($result->status);
-            $worstStatus = $worstStatus->worst($status);
+            $status = $status->worst($result->status);
 
             $rows[] = [
-                $this->colorize($result->name, $status),
+                $this->colorize($result->name, $result->status),
                 $result->description ?? '',
                 $result->value !== null ? (string) $result->value : '',
-                $this->colorize($result->status, $status),
+                $this->colorize($result->status->value, $result->status),
             ];
         }
 
@@ -39,17 +38,17 @@ final class HealthCheckCommand extends Command
 
         $this->newLine();
 
-        if ($worstStatus === HealthCheckStatus::OK) {
+        if ($status === HealthCheckStatus::OK) {
             $this->info('Overall status: ok');
             return self::SUCCESS;
         }
 
-        if ($worstStatus === HealthCheckStatus::WARNING) {
+        if ($status === HealthCheckStatus::WARNING) {
             $this->warn('Overall status: warning');
             return 1;
         }
 
-        $this->error('Overall status: ' . $worstStatus->value);
+        $this->error('Overall status: ' . $status->value);
         return 2;
     }
 

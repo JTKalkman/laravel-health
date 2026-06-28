@@ -23,7 +23,7 @@ final class DatabaseConnectionCountCheck extends HealthCheck
         if (!array_key_exists($this->connection, config('database.connections', []))) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Database connection '{$this->connection}' is not configured.",
             );
         }
@@ -31,7 +31,7 @@ final class DatabaseConnectionCountCheck extends HealthCheck
         if ($this->warningThreshold >= $this->errorThreshold) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Warning threshold must be less than error threshold.',
             );
         }
@@ -42,7 +42,7 @@ final class DatabaseConnectionCountCheck extends HealthCheck
             'mysql', 'mariadb' => $this->checkMysql(),
             default            => new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Unsupported database driver '{$driver}'.",
             ),
         };
@@ -66,7 +66,7 @@ final class DatabaseConnectionCountCheck extends HealthCheck
         if ($max === 0) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Could not retrieve maximum connection count.',
             );
         }
@@ -74,9 +74,9 @@ final class DatabaseConnectionCountCheck extends HealthCheck
         $percentage = round(($current / $max) * 100, 1);
 
         $status = match (true) {
-            $percentage >= $this->errorThreshold   => HealthCheckStatus::ERROR->value,
-            $percentage >= $this->warningThreshold => HealthCheckStatus::WARNING->value,
-            default                                => HealthCheckStatus::OK->value,
+            $percentage >= $this->errorThreshold   => HealthCheckStatus::ERROR,
+            $percentage >= $this->warningThreshold => HealthCheckStatus::WARNING,
+            default                                => HealthCheckStatus::OK,
         };
 
         return new HealthCheckResult(
