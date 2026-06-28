@@ -22,7 +22,7 @@ class DatabaseConnectionCountCheckTest extends LaravelTestCase
         );
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
         $this->assertNull($result->value);
     }
@@ -36,7 +36,7 @@ class DatabaseConnectionCountCheckTest extends LaravelTestCase
         );
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
         $this->assertNull($result->value);
     }
@@ -46,7 +46,7 @@ class DatabaseConnectionCountCheckTest extends LaravelTestCase
         $check = new DatabaseConnectionCountCheck(connection: 'doesnotexist');
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertEquals("Database connection 'doesnotexist' is not configured.", $result->description);
         $this->assertNull($result->value);
     }
@@ -61,7 +61,7 @@ class DatabaseConnectionCountCheckTest extends LaravelTestCase
         $check = new DatabaseConnectionCountCheck(connection: 'sqlite');
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertStringContainsString('sqlite', $result->description);
         $this->assertNull($result->value);
     }

@@ -18,7 +18,7 @@ class DatabaseConnectionCheckTest extends LaravelTestCase
         $check = new DatabaseConnectionCheck(connection: 'doesnotexist');
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertNull($result->value);
         $this->assertEquals("Database connection 'doesnotexist' is not configured.", $result->description);
     }
@@ -52,7 +52,7 @@ class DatabaseConnectionCheckTest extends LaravelTestCase
         $check = new DatabaseConnectionCheck(connection: 'sqlite');
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::OK->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::OK, $result->status);
     }
 
     public function test_returns_response_time_as_value(): void

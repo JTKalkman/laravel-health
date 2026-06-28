@@ -21,7 +21,7 @@ class MemoryCheckTest extends TestCase
         // If this test runs on a non-Linux system it will return an error,
         // which is the correct and expected behaviour.
         if (!is_readable('/proc/meminfo')) {
-            $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+            $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
             $this->assertEquals('Check not available on this system.', $result->description);
         } else {
             $this->assertNotEquals('Check not available on this system.', $result->description);
@@ -37,7 +37,7 @@ class MemoryCheckTest extends TestCase
         $check = new MemoryCheck(warningThreshold: 90, errorThreshold: 75);
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
         $this->assertNull($result->value);
     }
@@ -47,7 +47,7 @@ class MemoryCheckTest extends TestCase
         $check = new MemoryCheck(warningThreshold: 75, errorThreshold: 75);
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
         $this->assertEquals('Warning threshold must be less than error threshold.', $result->description);
         $this->assertNull($result->value);
     }
@@ -86,9 +86,9 @@ class MemoryCheckTest extends TestCase
         $result = $check->run();
 
         $this->assertContains($result->status, [
-            HealthCheckStatus::OK->value,
-            HealthCheckStatus::WARNING->value,
-            HealthCheckStatus::ERROR->value,
+            HealthCheckStatus::OK,
+            HealthCheckStatus::WARNING,
+            HealthCheckStatus::ERROR,
         ]);
     }
 
@@ -115,7 +115,7 @@ class MemoryCheckTest extends TestCase
         $check = new MemoryCheck(warningThreshold: 99, errorThreshold: 100);
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::OK->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::OK, $result->status);
     }
 
     public function test_returns_warning_when_above_warning_threshold(): void
@@ -127,7 +127,7 @@ class MemoryCheckTest extends TestCase
         $check = new MemoryCheck(warningThreshold: 0, errorThreshold: 100);
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::WARNING->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::WARNING, $result->status);
     }
 
     public function test_returns_error_when_above_error_threshold(): void
@@ -139,6 +139,6 @@ class MemoryCheckTest extends TestCase
         $check = new MemoryCheck(warningThreshold: 0, errorThreshold: 1);
         $result = $check->run();
 
-        $this->assertEquals(HealthCheckStatus::ERROR->value, $result->status);
+        $this->assertEquals(HealthCheckStatus::ERROR, $result->status);
     }
 }
