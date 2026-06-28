@@ -21,12 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `php artisan health:check` command, runs all checks and displays colored results in the terminal with exit codes for use in deployment pipelines
 - `php artisan health:clear` command, clears the cached health check results
 
-## [1.0.1] - 2026-06-28
+## [1.0.1] - 2025-03-06
 
 ### Fixed
 - Replace closures with serializable class tuples in `config/health.php` to fix `php artisan config:cache` incompatibility in production
 
-## [1.0.0] - 2026-06-28
+## [1.0.0] - 2025-03-06
 
 ### Added
 - Initial release
