@@ -25,9 +25,9 @@ final class DiskSpaceCheck extends HealthCheck
     private function buildResult(float $usedPercentage): HealthCheckResult
     {
         $status = match (true) {
-            $usedPercentage >= $this->errorThreshold   => HealthCheckStatus::ERROR->value,
-            $usedPercentage >= $this->warningThreshold => HealthCheckStatus::WARNING->value,
-            default                                    => HealthCheckStatus::OK->value,
+            $usedPercentage >= $this->errorThreshold   => HealthCheckStatus::ERROR,
+            $usedPercentage >= $this->warningThreshold => HealthCheckStatus::WARNING,
+            default                                    => HealthCheckStatus::OK,
         };
  
         $description = "{$this->path} " . Formatter::percentage($usedPercentage) . " used.";
@@ -47,7 +47,7 @@ final class DiskSpaceCheck extends HealthCheck
         if ($returnCode !== 0 || count($output) < 2) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Failed to retrieve disk space for {$this->path}.",
             );
         }
@@ -68,7 +68,7 @@ final class DiskSpaceCheck extends HealthCheck
         if ($free === false || $total === false || $total === 0.0) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Could not retrieve disk space for {$this->path}.",
             );
         }
@@ -83,7 +83,7 @@ final class DiskSpaceCheck extends HealthCheck
         if (!is_dir($this->path)) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Path {$this->path} not found.",
             );
         }
@@ -91,7 +91,7 @@ final class DiskSpaceCheck extends HealthCheck
         if ($this->warningThreshold >= $this->errorThreshold) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Warning threshold must be less than error threshold.",
             );
         }

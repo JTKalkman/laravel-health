@@ -39,7 +39,7 @@ abstract class HealthCheck
         if (!$this->isAvailable()) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "{$this->name} is not available on this system.",
             );
         }
@@ -49,7 +49,7 @@ abstract class HealthCheck
         } catch (\Throwable $th) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: $th->getMessage(),
             );
         }

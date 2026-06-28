@@ -30,7 +30,7 @@ final class MemoryCheck extends HealthCheck
         if ($this->warningThreshold >= $this->errorThreshold) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Warning threshold must be less than error threshold.',
             );
         }
@@ -40,7 +40,7 @@ final class MemoryCheck extends HealthCheck
         if ($meminfo === false) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Could not read /proc/meminfo.',
             );
         }
@@ -51,7 +51,7 @@ final class MemoryCheck extends HealthCheck
         if ($total === null || $available === null || $total === 0) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: 'Could not parse memory information.',
             );
         }
@@ -60,9 +60,9 @@ final class MemoryCheck extends HealthCheck
         $usedPercentage = round(($used / $total) * 100, 1);
 
         $status = match (true) {
-            $usedPercentage >= $this->errorThreshold   => HealthCheckStatus::ERROR->value,
-            $usedPercentage >= $this->warningThreshold => HealthCheckStatus::WARNING->value,
-            default                                    => HealthCheckStatus::OK->value,
+            $usedPercentage >= $this->errorThreshold   => HealthCheckStatus::ERROR,
+            $usedPercentage >= $this->warningThreshold => HealthCheckStatus::WARNING,
+            default                                    => HealthCheckStatus::OK,
         };
 
         return new HealthCheckResult(

@@ -6,7 +6,7 @@ class HealthCheckResult
 {
     public function __construct(
         public readonly string $name,
-        public readonly string $status,
+        public readonly HealthCheckStatus $status,
         public readonly ?float $value = null,
         public readonly ?string $description = null,
     ) {}

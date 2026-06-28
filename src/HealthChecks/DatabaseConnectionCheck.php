@@ -21,7 +21,7 @@ final class DatabaseConnectionCheck extends HealthCheck
         if (!array_key_exists($this->connection, config('database.connections', []))) {
             return new HealthCheckResult(
                 name: $this->name,
-                status: HealthCheckStatus::ERROR->value,
+                status: HealthCheckStatus::ERROR,
                 description: "Database connection '{$this->connection}' is not configured.",
             );
         }
@@ -34,7 +34,7 @@ final class DatabaseConnectionCheck extends HealthCheck
 
         return new HealthCheckResult(
             name: $this->name,
-            status: HealthCheckStatus::OK->value,
+            status: HealthCheckStatus::OK,
             value: $duration,
             description: "Connected in " . Formatter::number($duration, 3) . "s.",
         );
