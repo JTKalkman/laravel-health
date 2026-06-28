@@ -117,7 +117,7 @@ return [
 Add these to your `.env`:
 
 ```env
-HEALTH_CHECK_SECRET=your-secret-key
+HEALTH_CHECK_SECRET="your$ecret#key!"
 HEALTH_REQUIRE_HTTPS=true
 
 # Optional overrides
@@ -132,6 +132,20 @@ For local development:
 HEALTH_REQUIRE_HTTPS=false
 HEALTH_CHECK_SECRET=my-test-secret
 ```
+
+## Artisan commands
+
+```bash
+# Run all checks and display results in the terminal
+php artisan health:check
+
+# Clear the cached health check results
+php artisan health:clear
+```
+
+`health:check` is useful for debugging on a production server and in deployment pipelines. It returns exit code `0` for ok, `1` for warning, and `2` for error, so a deploy can fail fast if checks are unhealthy.
+
+`health:clear` only clears the health check result cache (`health::results`). It does not clear the Laravel config cache.
 
 ## Finding your mount points
 

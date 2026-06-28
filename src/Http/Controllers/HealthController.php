@@ -74,27 +74,12 @@ final class HealthController extends Controller
                 'status'      => $result->status,
             ], fn($value) => $value !== null);
 
-            $worstStatus = $this->resolveWorstStatus($worstStatus, $result->status);
+            $worstStatus = $worstStatus->worst($result->status);
         }
 
         return [
             'results' => $results,
             'status'  => $worstStatus->value,
         ];
-    }
-
-    private function resolveWorstStatus(HealthCheckStatus $current, string $new): HealthCheckStatus
-    {
-        $priority = [
-            HealthCheckStatus::OK->value      => 0,
-            HealthCheckStatus::WARNING->value => 1,
-            HealthCheckStatus::ERROR->value   => 2,
-        ];
-
-        $newStatus = HealthCheckStatus::from($new);
-
-        return $priority[$newStatus->value] > $priority[$current->value]
-            ? $newStatus
-            : $current;
     }
 }

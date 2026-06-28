@@ -3,6 +3,8 @@
 namespace JTKalkman\LaravelHealth;
 
 use Illuminate\Support\ServiceProvider;
+use JTKalkman\LaravelHealth\Commands\HealthCheckCommand;
+use JTKalkman\LaravelHealth\Commands\HealthClearCommand;
 
 final class HealthServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,11 @@ final class HealthServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/health.php' => config_path('health.php'),
             ], 'health-config');
+
+            $this->commands([
+                HealthClearCommand::class,
+                HealthCheckCommand::class,
+            ]);
         }
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/health.php');
