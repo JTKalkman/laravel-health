@@ -18,3 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Semonto-compatible JSON output
 - Configurable authentication, HTTPS requirement, caching, and route
 - Custom check support via extending `HealthCheck` abstract class
+
+## [1.0.1] - 2025-28-06
+- Adds Artisan commands to:
+    - Run all checks and display results in the terminal
+    - Clear the cached health check results
