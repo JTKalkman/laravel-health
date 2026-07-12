@@ -178,9 +178,9 @@ CPU load thresholds are expressed as a percentage of total CPU capacity. A load 
 
 ```php
 // Conservative thresholds, sustained load is more concerning than spikes
-fn() => new CpuLoadCheck(minutes: 1,  warningThreshold: 70, errorThreshold: 90),  // spikes OK
-fn() => new CpuLoadCheck(minutes: 5,  warningThreshold: 60, errorThreshold: 80),
-fn() => new CpuLoadCheck(minutes: 15, warningThreshold: 50, errorThreshold: 70),  // sustained load
+[CpuLoadCheck::class, ['minutes' => 1,  'warningThreshold' => 70, 'errorThreshold' => 90]],  // spikes OK
+[CpuLoadCheck::class, ['minutes' => 5,  'warningThreshold' => 60, 'errorThreshold' => 80]],
+[CpuLoadCheck::class, ['minutes' => 15, 'warningThreshold' => 50, 'errorThreshold' => 70]],  // sustained load
 ```
 
 ### Multiple database connections
@@ -188,9 +188,9 @@ fn() => new CpuLoadCheck(minutes: 15, warningThreshold: 50, errorThreshold: 70),
 Laravel supports multiple database connections. Add a check for each one you want to monitor:
 
 ```php
-fn() => new DatabaseConnectionCheck(connection: 'mysql'),
-fn() => new DatabaseConnectionCheck(connection: 'pgsql'),
-fn() => new DatabaseConnectionCheck(connection: 'tenant'),
+[DatabaseConnectionCheck::class, ['connection' => 'mysql']],
+[DatabaseConnectionCheck::class, ['connection' => 'pgsql']],
+[DatabaseConnectionCheck::class, ['connection' => 'tenant']],
 ```
 
 ## Custom checks
@@ -229,9 +229,13 @@ class RedisCheck extends HealthCheck
 Register it in `config/health.php`:
 
 ```php
+use \App\HealthChecks\
+
+// ...
+
 'checks' => [
     // ...
-    fn() => new \App\HealthChecks\RedisCheck(),
+    RedisCheck::class,
 ],
 ```
 
