@@ -53,7 +53,9 @@ final class HealthController extends Controller
         $names = [];
         $status = HealthCheckStatus::OK;
 
-        foreach ($checks as [$class, $params]) {
+        foreach ($checks as $check) {
+            [$class, $params] = is_array($check) ? [$check[0], $check[1] ?? []] : [$check, []];
+
             $instance = new $class(...$params);
 
             if (in_array($instance->name(), $names)) {
